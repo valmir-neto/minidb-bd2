@@ -1,46 +1,44 @@
+import unittest
+
 from storage.page import PAGE_SIZE, Page
 from storage.record import FixedRecord
 
 
-def test_empty_page():
-    pagina = Page(0)
+class TestPage(unittest.TestCase):
+    def test_empty_page(self):
+        pagina = Page(0)
 
-    assert len(pagina.read()) == PAGE_SIZE
-    assert pagina.record_count() == 0
-    assert pagina.dirty is False
+        self.assertEqual(len(pagina.read()), PAGE_SIZE)
+        self.assertEqual(pagina.record_count(), 0)
+        self.assertFalse(pagina.dirty)
 
+    def test_append_and_read_record(self):
+        pagina = Page(0)
+        registro = FixedRecord((1, 20260001)).serialize()
 
-def test_append_and_read_record():
-    pagina = Page(0)
-    registro = FixedRecord((1, 20260001)).serialize()
+        numero = pagina.append_record(registro)
 
-    numero = pagina.append_record(registro)
+        self.assertEqual(numero, 0)
+        self.assertEqual(pagina.record_count(), 1)
+        self.assertTrue(pagina.dirty)
+        self.assertEqual(pagina.get_record(0, len(registro)), registro)
 
-    assert numero == 0
-    assert pagina.record_count() == 1
-    assert pagina.dirty is True
-    assert pagina.get_record(0, len(registro)) == registro
+    def test_multiple_fixed_records(self):
+        pagina = Page(0)
+        registros = [
+            FixedRecord((1, 20260001)).serialize(),
+            FixedRecord((2, 20260002)).serialize(),
+            FixedRecord((3, 20260003)).serialize(),
+        ]
 
+        for registro in registros:
+            pagina.append_record(registro)
 
-def test_multiple_fixed_records():
-    pagina = Page(0)
-    registros = [
-        FixedRecord((1, 20260001)).serialize(),
-        FixedRecord((2, 20260002)).serialize(),
-        FixedRecord((3, 20260003)).serialize(),
-    ]
+        self.assertEqual(pagina.record_count(), 3)
 
-    for registro in registros:
-        pagina.append_record(registro)
-
-    assert pagina.record_count() == 3
-
-    for numero, esperado in enumerate(registros):
-        assert pagina.get_record(numero, len(esperado)) == esperado
+        for numero, esperado in enumerate(registros):
+            self.assertEqual(pagina.get_record(numero, len(esperado)), esperado)
 
 
 if __name__ == "__main__":
-    test_empty_page()
-    test_append_and_read_record()
-    test_multiple_fixed_records()
-    print("Testes de página: OK")
+    unittest.main()
