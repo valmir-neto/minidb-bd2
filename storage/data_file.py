@@ -1,3 +1,5 @@
+import os
+
 from .page import PAGE_SIZE, Page
 
 
@@ -34,7 +36,8 @@ class DataFile:
         return Page(page_id, data)
 
     def page_count(self):
-        size = __import__("os").path.getsize(self.filename)
+        size = os.path.getsize(self.filename)
+
         if size % PAGE_SIZE != 0:
             raise ValueError("Arquivo de dados possui tamanho inválido")
 
