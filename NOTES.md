@@ -1,3 +1,3 @@
 # Módulo 1 — Armazenamento
 
-A primeira decisão de projeto foi representar o armazenamento em páginas de tamanho fixo de 4096 bytes. A classe `Page` mantém uma página em memória e registra quando ela foi modificada, enquanto `DataFile` é responsável por ler e escrever páginas diretamente no arquivo de dados. Essa separação prepara o MiniDB para receber o Buffer Pool no próximo módulo.
+A decisão de projeto deste módulo foi representar o armazenamento físico usando páginas de tamanho fixo de 4096 bytes e registros de tamanho fixo. A classe Page representa uma página em memória, FixedRecord transforma os valores inteiros do registro em bytes, e DataFile é responsável por persistir páginas no arquivo de dados. A responsabilidade de páginas sujas e escrita controlada pelo cache fica para o Módulo 2, quando será implementado o Buffer Pool.
