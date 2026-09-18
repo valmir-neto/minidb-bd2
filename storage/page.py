@@ -8,7 +8,6 @@ class Page:
     def __init__(self, page_id, data=None):
         self.page_id = page_id
         self.data = bytearray(PAGE_SIZE)
-        self.dirty = False
 
         if data is not None:
             if len(data) != PAGE_SIZE:
@@ -23,7 +22,6 @@ class Page:
             raise ValueError("Os dados excedem o tamanho da página")
 
         self.data[:len(data)] = data
-        self.dirty = True
 
     def record_count(self):
         return struct.unpack("<I", self.data[:HEADER_SIZE])[0]
@@ -41,13 +39,13 @@ class Page:
             raise ValueError("O registro não pode ser vazio")
 
         count = self.record_count()
+
         if count >= self.capacity(record_size):
             raise ValueError("A página está cheia")
 
         offset = HEADER_SIZE + count * record_size
         self.data[offset:offset + record_size] = record_data
         self.data[:HEADER_SIZE] = struct.pack("<I", count + 1)
-        self.dirty = True
 
         return count
 
@@ -56,6 +54,9 @@ class Page:
 
         if record_number < 0 or record_number >= count:
             raise IndexError("Registro inexistente na página")
+
+        if record_size <= 0:
+            raise ValueError("O tamanho do registro deve ser positivo")
 
         offset = HEADER_SIZE + record_number * record_size
         return bytes(self.data[offset:offset + record_size])
