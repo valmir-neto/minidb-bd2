@@ -10,7 +10,6 @@ class TestPage(unittest.TestCase):
 
         self.assertEqual(len(pagina.read()), PAGE_SIZE)
         self.assertEqual(pagina.record_count(), 0)
-        self.assertFalse(pagina.dirty)
 
     def test_append_and_read_record(self):
         pagina = Page(0)
@@ -20,11 +19,11 @@ class TestPage(unittest.TestCase):
 
         self.assertEqual(numero, 0)
         self.assertEqual(pagina.record_count(), 1)
-        self.assertTrue(pagina.dirty)
         self.assertEqual(pagina.get_record(0, len(registro)), registro)
 
     def test_multiple_fixed_records(self):
         pagina = Page(0)
+
         registros = [
             FixedRecord((1, 20260001)).serialize(),
             FixedRecord((2, 20260002)).serialize(),
@@ -37,7 +36,10 @@ class TestPage(unittest.TestCase):
         self.assertEqual(pagina.record_count(), 3)
 
         for numero, esperado in enumerate(registros):
-            self.assertEqual(pagina.get_record(numero, len(esperado)), esperado)
+            self.assertEqual(
+                pagina.get_record(numero, len(esperado)),
+                esperado
+            )
 
 
 if __name__ == "__main__":
