@@ -4,14 +4,14 @@ from storage.page import PAGE_SIZE, Page
 from storage.record import FixedRecord
 
 
-class TestPage(unittest.TestCase):
-    def test_empty_page(self):
+class TestPagina(unittest.TestCase):
+    def test_pagina_vazia(self):
         pagina = Page(0)
 
         self.assertEqual(len(pagina.read()), PAGE_SIZE)
         self.assertEqual(pagina.record_count(), 0)
 
-    def test_append_and_read_record(self):
+    def test_adicionar_e_ler_registro(self):
         pagina = Page(0)
         registro = FixedRecord((1, 20260001)).serialize()
 
@@ -21,7 +21,7 @@ class TestPage(unittest.TestCase):
         self.assertEqual(pagina.record_count(), 1)
         self.assertEqual(pagina.get_record(0, len(registro)), registro)
 
-    def test_multiple_fixed_records(self):
+    def test_multiplos_registros_fixos(self):
         pagina = Page(0)
 
         registros = [
