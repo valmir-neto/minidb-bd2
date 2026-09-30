@@ -6,11 +6,11 @@ from storage.data_file import DataFile
 from storage.page import PAGE_SIZE, Page
 
 
-class TestStorage(unittest.TestCase):
-    def test_page_write_and_read(self):
-        with tempfile.TemporaryDirectory() as directory:
-            filename = os.path.join(directory, "dados.db")
-            arquivo = DataFile(filename)
+class TestArmazenamento(unittest.TestCase):
+    def test_escrever_e_ler_pagina(self):
+        with tempfile.TemporaryDirectory() as diretorio:
+            nome_arquivo = os.path.join(diretorio, "dados.db")
+            arquivo = DataFile(nome_arquivo)
 
             pagina = Page(0)
             pagina.write(b"MiniDB")
