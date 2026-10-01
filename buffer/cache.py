@@ -47,7 +47,7 @@ class Cache:
         
     #expulsa uma página do cache, caso ela não esteja fixada e se estiver suja, grava no disco.
     def _expulsa(self):
-        for numero in self.uso:
+        for numero in list(self.uso):
             if self.fixada.get(numero, 0) == 0: #verifica se a página não está fixada
                 if numero in self.suja:   #verifica se a página foi modificada
                     self.pager.escreve_pagina(numero, self.frames[numero].le())
