@@ -12,17 +12,17 @@ class TestArmazenamento(unittest.TestCase):
             nome_arquivo = os.path.join(diretorio, "dados.db")
             arquivo = DataFile(nome_arquivo)
 
-            pagina = Page(0)
-            pagina.write(b"MiniDB")
+            numero = arquivo.aloca()
+            pagina = Page(numero)
+            pagina.escreve(b"MiniDB")
 
-            arquivo.write_page(0, pagina.read())
+            arquivo.escreve_pagina(numero, pagina.le())
 
-            pagina_lida = arquivo.read_page(0)
+            pagina_lida = arquivo.le_pagina(numero)
 
-            self.assertIsNotNone(pagina_lida)
-            self.assertEqual(pagina_lida.page_id, 0)
-            self.assertEqual(pagina_lida.read()[:6], b"MiniDB")
-            self.assertEqual(len(pagina_lida.read()), PAGE_SIZE)
+            self.assertEqual(pagina_lida.numero, numero)
+            self.assertEqual(pagina_lida.le()[:6], b"MiniDB")
+            self.assertEqual(len(pagina_lida.le()), PAGE_SIZE)
 
 
 if __name__ == "__main__":
