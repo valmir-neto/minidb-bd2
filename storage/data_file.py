@@ -158,14 +158,14 @@ class DataFile:
             if pagina.quantidade_registros() < pagina.capacidade(tamanho_registro):
                 slot = pagina.insere_registro(dados_registro)
                 self.escreve_pagina(numero, pagina.le())
-                self._atualiza_primeira_pagina_livre()
+                self._atualiza_primeira_pagina_livre(tamanho_registro)
                 return numero, slot
 
         numero = self.aloca()
         pagina = self.le_pagina(numero)
         slot = pagina.insere_registro(dados_registro)
         self.escreve_pagina(numero, pagina.le())
-        self._atualiza_primeira_pagina_livre()
+        self._atualiza_primeira_pagina_livre(tamanho_registro)
 
         return numero, slot
 
@@ -176,14 +176,14 @@ class DataFile:
 
         return struct.unpack("<I", dados)[0]
 
-    def _atualiza_primeira_pagina_livre(self):
+    def _atualiza_primeira_pagina_livre(self, tamanho_registro):
         total_paginas = self._total_paginas()
         primeira_pagina_livre = 0
 
         for numero in range(1, total_paginas):
             pagina = self.le_pagina(numero)
 
-            if pagina.quantidade_registros() < pagina.capacidade(8):
+            if pagina.quantidade_registros() < pagina.capacidade(tamanho_registro):
                 primeira_pagina_livre = numero
                 break
 
