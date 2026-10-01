@@ -15,7 +15,7 @@ class TestArmazenamento(unittest.TestCase):
             pagina = Page(0)
             pagina.escreve(b"MiniDB")
 
-            arquivo.write_page(0, pagina.read())
+            arquivo.write_page(0, pagina.le())
 
             pagina_lida = arquivo.read_page(0)
 
