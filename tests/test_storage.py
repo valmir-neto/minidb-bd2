@@ -13,7 +13,7 @@ class TestArmazenamento(unittest.TestCase):
             arquivo = DataFile(nome_arquivo)
 
             pagina = Page(0)
-            pagina.write(b"MiniDB")
+            pagina.escreve(b"MiniDB")
 
             arquivo.write_page(0, pagina.read())
 
