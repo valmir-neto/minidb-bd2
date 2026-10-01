@@ -9,7 +9,7 @@ Implementar um pequeno SGBD capaz de armazenar dados, executar consultas SQL e r
 
 ## Funções
 [x] M1 — Página e arquivo de dados: Escrita e leitura física de blocos (páginas) de 4096 bytes em disco. 
-[] M2 — Cache de páginas (Buffer Pool): Páginas em memória, marcação de página suja, escrita no disco.
+[x] M2 — Cache de páginas (Buffer Pool): Páginas em memória, marcação de página suja, escrita no disco.
 [] M3 — Árvore B+: Busca e inserção com divisão de nó.
 [] M4 — Analisador e catálogo: Tradutor de comandos SQL textuais para instruções que o motor entende.
 [] M5 — Executor: Modelo iterador, varredura sequencial, varredura por índice e filtro.
