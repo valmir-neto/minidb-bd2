@@ -2,36 +2,34 @@ INT_SIZE = 4
 
 
 class FixedRecord:
-    """Representa um registro composto somente por inteiros de 4 bytes."""
-
-    def __init__(self, values):
-        self.values = tuple(values)
+    def __init__(self, valores):
+        self.valores = tuple(valores)
 
     @property
-    def size(self):
-        return len(self.values) * INT_SIZE
+    def tamanho(self):
+        return len(self.valores) * INT_SIZE
 
-    def serialize(self):
-        data = bytearray()
+    def serializa(self):
+        dados = bytearray()
 
-        for value in self.values:
-            data.extend(int(value).to_bytes(INT_SIZE, byteorder="little", signed=True))
+        for valor in self.valores:
+            dados.extend(int(valor).to_bytes(INT_SIZE, byteorder="little", signed=True))
 
-        return bytes(data)
+        return bytes(dados)
 
     @classmethod
-    def deserialize(cls, data):
-        if len(data) % INT_SIZE != 0:
+    def desserializa(cls, dados):
+        if len(dados) % INT_SIZE != 0:
             raise ValueError("Tamanho de registro inválido")
 
-        values = []
+        valores = []
 
-        for position in range(0, len(data), INT_SIZE):
-            value = int.from_bytes(
-                data[position:position + INT_SIZE],
+        for posicao in range(0, len(dados), INT_SIZE):
+            valor = int.from_bytes(
+                dados[posicao:posicao + INT_SIZE],
                 byteorder="little",
                 signed=True,
             )
-            values.append(value)
+            valores.append(valor)
 
-        return cls(values)
+        return cls(valores)
