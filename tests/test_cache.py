@@ -21,9 +21,6 @@ class TestCache(unittest.TestCase):
         self.assertEqual(cache.acertos, 1)
         self.assertEqual(cache.faltas, 1)
         
-if __name__ == "__main__":
-    unittest.main()
-    
     def test_expulsao_pagina_nao_fixa(self):
         arquivo = DataFile("teste_cache.db")
         cache = Cache(arquivo, capacidade=3)
@@ -79,3 +76,6 @@ if __name__ == "__main__":
         pagina_lida = arquivo_novo.le_pagina(1)
 
         self.assertEqual(pagina_lida.le()[:6], b"MiniDB")
+        
+if __name__ == "__main__":
+    unittest.main()
