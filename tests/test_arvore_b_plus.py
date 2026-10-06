@@ -1,7 +1,6 @@
 import unittest
 
-from arvore.arvore_b_plus import ArvoreBPlus
-
+from buffer.arvore_b_plus import ArvoreBPlus
 
 class TestArvoreBPlus(unittest.TestCase):
 
