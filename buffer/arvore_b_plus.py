@@ -19,16 +19,16 @@ class ArvoreBPlus:
         while not atual.eh_folha:
             atual = self._obter_no_filho(atual, chave)
             
-        for i, c in enumerate(atual.chaves):
-            if c == chave:
-                return atual.valores[i]
+        for posicao, chave_atual in enumerate(atual.chaves):
+            if chave_atual == chave:
+                return atual.valores[posicao]
         return None
 
     """Encontrar o nó filho correto para descer na busca/inserção"""
     def _obter_no_filho(self, no, chave):
-        for i, c in enumerate(no.chaves):
-            if chave < c:
-                return no.filhos[i]
+        for posicao, chave_atual in enumerate(no.chaves):
+            if chave < chave_atual:
+                return no.filhos[posicao]
         return no.filhos[-1]
     
     """Insere um par chave-valor"""
@@ -110,7 +110,7 @@ class ArvoreBPlus:
         no_direito.filhos = no_esquerdo.filhos[meio + 1:]
         no_esquerdo.chaves = no_esquerdo.chaves[:meio]
         no_esquerdo.filhos = no_esquerdo.filhos[:meio + 1]
-        
+    
         self._inserir_no_pai(no_esquerdo, chave_pai, no_direito)
 
     """Busca recursiva para encontrar o nó pai de um determinado filho"""
